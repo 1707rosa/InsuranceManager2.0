@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Autoinsurance.Models.Claims>
+
+<h2>Lista de Reclamaciones</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Número de Reclamación</th>
+            <th>Póliza</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reclamo in Model)
+        {
+            <tr>
+                <td>@reclamo.ClaimNumber</td>
+                <td>@reclamo.PolicyId</td>
+                <td>@reclamo.ClaimAmount</td>
+                <td>@reclamo.ClaimDate</td>
+                <td>@reclamo.Status</td>
+                <td>
+                    <a href="@Url.Action("Details", "Claims", new { id = reclamo.Id })">Detalles</a> |
+                    <a href="@Url.Action("Edit", "Claims", new { id = reclamo.Id })">Editar</a> |
+                    <a href="@Url.Action("Delete", "Claims", new { id = reclamo.Id })">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Create", "Claims")">Agregar Reclamación</a>

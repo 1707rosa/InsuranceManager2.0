@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Autoinsurance.Models.Vehicles>
+
+<h2>Lista de Vehículos</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Año</th>
+            <th>Placa</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehiculo in Model)
+        {
+            <tr>
+                <td>@vehiculo.Make</td>
+                <td>@vehiculo.Model</td>
+                <td>@vehiculo.Year</td>
+                <td>@vehiculo.PlateNumber</td>
+                <td>
+                    <a href="@Url.Action("Details", "Vehicles", new { id = vehiculo.Id })">Detalles</a> |
+                    <a href="@Url.Action("Edit", "Vehicles", new { id = vehiculo.Id })">Editar</a> |
+                    <a href="@Url.Action("Delete", "Vehicles", new { id = vehiculo.Id })">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Create", "Vehicles")">Agregar Vehículo</a>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Autoinsurance.Models.Policies>
+
+<h2>Lista de Pólizas</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Número de Póliza</th>
+            <th>Cliente</th>
+            <th>Vehículo</th>
+            <th>Monto de Cobertura</th>
+            <th>Prima</th>
+            <th>Fechas</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var poliza in Model)
+        {
+            <tr>
+                <td>@poliza.PolicyNumber</td>
+                <td>@poliza.CustomersId</td>
+                <td>@poliza.VehicleId</td>
+                <td>@poliza.CoverageAmount</td>
+                <td>@poliza.PremiumAmount</td>
+                <td>@poliza.StartDate - @poliza.EndDate</td>
+                <td>
+                    <a href="@Url.Action("Details", "Policies", new { id = poliza.Id })">Detalles</a> |
+                    <a href="@Url.Action("Edit", "Policies", new { id = poliza.Id })">Editar</a> |
+                    <a href="@Url.Action("Delete", "Policies", new { id = poliza.Id })">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Create", "Policies")">Agregar Póliza</a>

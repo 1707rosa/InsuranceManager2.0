@@ -1,0 +1,20 @@
+﻿@model Autoinsurance.Models.Payments
+
+<h2>Registrar Pago</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        <label>Fecha de Pago:</label>
+        @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}")
+    </div>
+    <div>
+        <label>Monto:</label>
+        @Html.TextBoxFor(m => m.Amount)
+    </div>
+    <div>
+        <label>Póliza:</label>
+        @Html.DropDownListFor(m => m.PolicyId, new SelectList(ViewBag.Policies, "Id", "PolicyNumber"))
+    </div>
+    <button type="submit">Registrar</button>
+}
+<a href="@Url.Action("Index", "Payments")">Volver a la lista</a>

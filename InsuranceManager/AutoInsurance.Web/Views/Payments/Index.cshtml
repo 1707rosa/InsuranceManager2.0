@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Autoinsurance.Models.Payments>
+
+<h2>Lista de Pagos</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Fecha de Pago</th>
+            <th>Monto</th>
+            <th>Póliza</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pago in Model)
+        {
+            <tr>
+                <td>@pago.PaymentDate</td>
+                <td>@pago.Amount</td>
+                <td>@pago.PolicyId</td>
+                <td>
+                    <a href="@Url.Action("Details", "Payments", new { id = pago.Id })">Detalles</a> |
+                    <a href="@Url.Action("Edit", "Payments", new { id = pago.Id })">Editar</a> |
+                    <a href="@Url.Action("Delete", "Payments", new { id = pago.Id })">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Create", "Payments")">Agregar Pago</a>

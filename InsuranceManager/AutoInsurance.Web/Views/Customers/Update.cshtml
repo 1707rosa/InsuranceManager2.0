@@ -1,0 +1,21 @@
+﻿@@model Autoinsurance.Models.Customers
+
+<h2>Editar Cliente</h2>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.id)
+    <div>
+        <label>Nombre:</label>
+        @Html.TextBoxFor(m => m.nombre)
+    </div>
+    <div>
+        <label>Teléfono:</label>
+        @Html.TextBoxFor(m => m.telefono)
+    </div>
+    <div>
+        <label>Email:</label>
+        @Html.TextBoxFor(m => m.email)
+    </div>
+    <button type="submit">Guardar cambios</button>
+}
+<a href="@Url.Action("Index", "Customers")">Volver a la lista</a>

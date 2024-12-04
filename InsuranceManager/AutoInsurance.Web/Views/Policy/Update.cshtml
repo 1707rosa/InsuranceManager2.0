@@ -1,0 +1,37 @@
+﻿@model Autoinsurance.Models.Policies
+
+<h2>Editar Póliza</h2>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.Id)
+    <div>
+        <label>Número de Póliza:</label>
+        @Html.TextBoxFor(m => m.PolicyNumber)
+    </div>
+    <div>
+        <label>Cliente:</label>
+        @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "nombre", Model.CustomersId))
+    </div>
+    <div>
+        <label>Vehículo:</label>
+        @Html.DropDownListFor(m => m.VehicleId, new SelectList(ViewBag.Vehiculos, "Id", "PlateNumber", Model.VehicleId))
+    </div>
+    <div>
+        <label>Monto de Cobertura:</label>
+        @Html.TextBoxFor(m => m.CoverageAmount)
+    </div>
+    <div>
+        <label>Prima:</label>
+        @Html.TextBoxFor(m => m.PremiumAmount)
+    </div>
+    <div>
+        <label>Fecha Inicio:</label>
+        @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}")
+    </div>
+    <div>
+        <label>Fecha Fin:</label>
+        @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}")
+    </div>
+    <button type="submit">Guardar Cambios</button>
+}
+<a href="@Url.Action("Index", "Policies")">Volver a la lista</a>

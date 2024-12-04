@@ -1,45 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AutoInsurance.Models;
+using AutoInsurance.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
-namespace AutoInsurance.Controllers
+namespace AutoInsurance.Web.Controllers
 {
-    public class CustomerController : Controller
+    public class ClaimController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomerController(ApplicationDbContext context)
+        public ClaimController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Customers
+        // GET: Claims
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var claims = await _context.Claims.Include(c => c.Policy).ToListAsync();
+            return View(claims);
         }
 
-        // GET: Customers/Create
+        // GET: Claims/Create
         public IActionResult Create()
         {
+            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber");
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Claims/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Telefono,Email")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Claim claim)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(claim);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", claim.PolicyId);
+            return View(claim);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Claims/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -47,20 +52,21 @@ namespace AutoInsurance.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            var claim = await _context.Claims.FindAsync(id);
+            if (claim == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", claim.PolicyId);
+            return View(claim);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Claims/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Telefono,Email")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Claim claim)
         {
-            if (id != customer.Id)
+            if (id != claim.Id)
             {
                 return NotFound();
             }
@@ -69,12 +75,12 @@ namespace AutoInsurance.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(claim);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!ClaimExists(claim.Id))
                     {
                         return NotFound();
                     }
@@ -85,10 +91,11 @@ namespace AutoInsurance.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", claim.PolicyId);
+            return View(claim);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Claims/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -96,30 +103,31 @@ namespace AutoInsurance.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var claim = await _context.Claims
+                .Include(c => c.Policy)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (claim == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(claim);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Claims/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var claim = await _context.Claims.FindAsync(id);
+            _context.Claims.Remove(claim);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool ClaimExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.Claims.Any(e => e.Id == id);
         }
     }
 }
