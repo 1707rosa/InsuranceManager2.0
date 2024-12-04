@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AutoInsurance.Web.Models;
+using Autoinsurance.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Autoinsurance.Infrastructure.Data;
 
 namespace AutoInsurance.Web.Controllers
 {
     public class PaymentController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AutoinsuranceDbContext _context;
 
-        public PaymentController(ApplicationDbContext context)
+        public PaymentController(AutoinsuranceDbContext context)
         {
             _context = context;
         }

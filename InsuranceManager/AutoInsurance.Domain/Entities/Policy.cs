@@ -1,4 +1,4 @@
-﻿using AutoInsurance.Domain.Entities;
+﻿
 
 namespace Autoinsurance.Domain.Entities
 {

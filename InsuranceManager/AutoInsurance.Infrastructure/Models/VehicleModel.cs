@@ -1,4 +1,4 @@
-﻿namespace Autoinsurance.Infrastructure.Modelss
+﻿namespace Autoinsurance.Infrastructure.Models
 {
     public class VehicleModel
     {

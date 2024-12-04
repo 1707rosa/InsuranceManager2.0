@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AutoInsurance.Web.Models;
+using Autoinsurance.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
+using Autoinsurance.Infrastructure.Data;
 
 namespace AutoInsurance.Web.Controllers
 {
     public class ClaimController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AutoinsuranceDbContext _context;
 
-        public ClaimController(ApplicationDbContext context)
+        public ClaimController(AutoinsuranceDbContext context)
         {
             _context = context;
         }
@@ -32,7 +33,7 @@ namespace AutoInsurance.Web.Controllers
         // POST: Claims/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Claim claim)
+        public async Task<IActionResult> Create([Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Autoinsurance.Domain.Entities.Claim claim)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +65,7 @@ namespace AutoInsurance.Web.Controllers
         // POST: Claims/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Claim claim)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Autoinsurance.Domain.Entities.Claim claim)
         {
             if (id != claim.Id)
             {

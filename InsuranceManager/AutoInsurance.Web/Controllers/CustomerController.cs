@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AutoInsurance.Models;
+using Autoinsurance.Infrastructure.Models;
+using Autoinsurance.Domain.Entities;
+using Autoinsurance.Infrastructure.Data;
 
 namespace AutoInsurance.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AutoinsuranceDbContext _context;
 
-        public CustomerController(ApplicationDbContext context)
+        public CustomerController(AutoinsuranceDbContext context)
         {
             _context = context;
         }

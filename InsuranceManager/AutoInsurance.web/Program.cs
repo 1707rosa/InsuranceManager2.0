@@ -1,7 +1,17 @@
+using Autoinsurance.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AutoinsuranceDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("MovieManagerStrConnection")));
+
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
