@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autoinsurance.Infrastructure.Models;
 using Autoinsurance.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Autoinsurance.Infrastructure.Data;
 
 namespace AutoInsurance.Controllers
@@ -16,9 +15,9 @@ namespace AutoInsurance.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(_context.Customers.ToList());
         }
 
         // GET: Customers/Create
@@ -30,26 +29,26 @@ namespace AutoInsurance.Controllers
         // POST: Customers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Telefono,Email")] Customer customer)
+        public IActionResult Create([Bind("Id,Nombre,Telefono,Email")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(customer);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _context.Customers.Find(id);
             if (customer == null)
             {
                 return NotFound();
@@ -60,7 +59,7 @@ namespace AutoInsurance.Controllers
         // POST: Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Telefono,Email")] Customer customer)
+        public IActionResult Edit(int id, [Bind("Id,Nombre,Telefono,Email")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -72,7 +71,7 @@ namespace AutoInsurance.Controllers
                 try
                 {
                     _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -91,15 +90,15 @@ namespace AutoInsurance.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var customer = _context.Customers
+                .FirstOrDefault(m => m.Id == id);
             if (customer == null)
             {
                 return NotFound();
@@ -111,11 +110,11 @@ namespace AutoInsurance.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _context.Customers.Find(id);
             _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

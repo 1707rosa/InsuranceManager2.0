@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoInsurance.API\AutoInsurance.API.csproj" />
+    
     <ProjectReference Include="..\AutoInsurance.Domain\AutoInsurance.Domain.csproj" />
   </ItemGroup>
 

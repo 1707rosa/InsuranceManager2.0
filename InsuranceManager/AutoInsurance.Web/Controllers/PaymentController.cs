@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Autoinsurance.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Autoinsurance.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AutoInsurance.Web.Controllers
 {
@@ -16,10 +16,9 @@ namespace AutoInsurance.Web.Controllers
         }
 
         // GET: Payments
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var payments = await _context.Payments.Include(p => p.Policy).ToListAsync();
-            return View(payments);
+            return View(_context.Payments.Include(p => p.Policy).ToList());
         }
 
         // GET: Payments/Create
@@ -32,12 +31,12 @@ namespace AutoInsurance.Web.Controllers
         // POST: Payments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PaymentNumber,PolicyId,Amount,PaymentDate")] Payment payment)
+        public IActionResult Create([Bind("Id,PaymentNumber,PolicyId,Amount,PaymentDate")] Payment payment)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(payment);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", payment.PolicyId);
@@ -45,14 +44,14 @@ namespace AutoInsurance.Web.Controllers
         }
 
         // GET: Payments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var payment = await _context.Payments.FindAsync(id);
+            var payment = _context.Payments.Find(id);
             if (payment == null)
             {
                 return NotFound();
@@ -64,7 +63,7 @@ namespace AutoInsurance.Web.Controllers
         // POST: Payments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PaymentNumber,PolicyId,Amount,PaymentDate")] Payment payment)
+        public IActionResult Edit(int id, [Bind("Id,PaymentNumber,PolicyId,Amount,PaymentDate")] Payment payment)
         {
             if (id != payment.Id)
             {
@@ -76,7 +75,7 @@ namespace AutoInsurance.Web.Controllers
                 try
                 {
                     _context.Update(payment);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -96,16 +95,16 @@ namespace AutoInsurance.Web.Controllers
         }
 
         // GET: Payments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var payment = await _context.Payments
+            var payment = _context.Payments
                 .Include(p => p.Policy)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
             if (payment == null)
             {
                 return NotFound();
@@ -117,11 +116,11 @@ namespace AutoInsurance.Web.Controllers
         // POST: Payments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var payment = await _context.Payments.FindAsync(id);
+            var payment = _context.Payments.Find(id);
             _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

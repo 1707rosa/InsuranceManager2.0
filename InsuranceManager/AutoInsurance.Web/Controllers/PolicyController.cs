@@ -15,17 +15,14 @@ namespace AutoInsurance.Web.Controllers
             _context = context;
         }
 
-        // GET: Policies
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var policies = await _context.Policies
+            return View(_context.Policies
                 .Include(p => p.Customer)
                 .Include(p => p.Vehicle)
-                .ToListAsync();
-            return View(policies);
+                .ToList());
         }
 
-        // GET: Policies/Create
         public IActionResult Create()
         {
             ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre");
@@ -33,15 +30,14 @@ namespace AutoInsurance.Web.Controllers
             return View();
         }
 
-        // POST: Policies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PolicyNumber,CustomersId,VehicleId,CoverageAmount,PremiumAmount,StartDate,EndDate")] Policy policy)
+        public IActionResult Create([Bind("Id,PolicyNumber,CustomersId,VehicleId,CoverageAmount,PremiumAmount,StartDate,EndDate")] Policy policy)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(policy);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", policy.CustomersId);
@@ -49,15 +45,14 @@ namespace AutoInsurance.Web.Controllers
             return View(policy);
         }
 
-        // GET: Policies/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var policy = await _context.Policies.FindAsync(id);
+            var policy = _context.Policies.Find(id);
             if (policy == null)
             {
                 return NotFound();
@@ -67,10 +62,9 @@ namespace AutoInsurance.Web.Controllers
             return View(policy);
         }
 
-        // POST: Policies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PolicyNumber,CustomersId,VehicleId,CoverageAmount,PremiumAmount,StartDate,EndDate")] Policy policy)
+        public IActionResult Edit(int id, [Bind("Id,PolicyNumber,CustomersId,VehicleId,CoverageAmount,PremiumAmount,StartDate,EndDate")] Policy policy)
         {
             if (id != policy.Id)
             {
@@ -82,7 +76,7 @@ namespace AutoInsurance.Web.Controllers
                 try
                 {
                     _context.Update(policy);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -102,18 +96,17 @@ namespace AutoInsurance.Web.Controllers
             return View(policy);
         }
 
-        // GET: Policies/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var policy = await _context.Policies
+            var policy = _context.Policies
                 .Include(p => p.Customer)
                 .Include(p => p.Vehicle)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
             if (policy == null)
             {
                 return NotFound();
@@ -122,14 +115,13 @@ namespace AutoInsurance.Web.Controllers
             return View(policy);
         }
 
-        // POST: Policies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var policy = await _context.Policies.FindAsync(id);
+            var policy = _context.Policies.Find(id);
             _context.Policies.Remove(policy);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

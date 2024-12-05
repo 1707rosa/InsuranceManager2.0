@@ -3,11 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar DbContext al contenedor de servicios con la cadena de conexión desde appsettings.json
 builder.Services.AddDbContext<AutoinsuranceDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Agregar servicios al contenedor
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
