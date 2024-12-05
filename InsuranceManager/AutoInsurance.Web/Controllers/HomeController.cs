@@ -2,7 +2,7 @@ using AutoInsurance.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace AutoInsurance.Web.Controllers
+namespace MovieManager.Web.Controllers
 {
     public class HomeController : Controller
     {

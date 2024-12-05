@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Autoinsurance.Models.Customers>
+﻿@model IEnumerable<Autoinsurance.Domain.Entities.Customer>
 
 <h2>Lista de Clientes</h2>
 <table>
@@ -14,13 +14,13 @@
         @foreach (var cliente in Model)
         {
             <tr>
-                <td>@cliente.nombre</td>
-                <td>@cliente.telefono</td>
-                <td>@cliente.email</td>
+                <td>@cliente.Nombre</td>
+                <td>@cliente.Telefono</td>
+                <td>@cliente.Email</td>
                 <td>
-                    <a href="@Url.Action("Details", "Customers", new { id = cliente.id })">Detalles</a> |
-                    <a href="@Url.Action("Edit", "Customers", new { id = cliente.id })">Editar</a> |
-                    <a href="@Url.Action("Delete", "Customers", new { id = cliente.id })">Eliminar</a>
+                    <a href="@Url.Action("Details", "Customers", new { Id = cliente.Id })">Detalles</a> |
+                    <a href="@Url.Action("Edit", "Customers", new { Id = cliente.Id })">Editar</a> |
+                    <a href="@Url.Action("Delete", "Customers", new { Id = cliente.Id })">Eliminar</a>
                 </td>
             </tr>
         }

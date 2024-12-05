@@ -1,20 +1,19 @@
-﻿@@model Autoinsurance.Models.Customers
-
+﻿@model Autoinsurance.Domain.Entities.Customer
 <h2>Editar Cliente</h2>
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(m => m.id)
+    @Html.HiddenFor(m => m.Id)
     <div>
         <label>Nombre:</label>
-        @Html.TextBoxFor(m => m.nombre)
+        @Html.TextBoxFor(m => m.Nombre)
     </div>
     <div>
         <label>Teléfono:</label>
-        @Html.TextBoxFor(m => m.telefono)
+        @Html.TextBoxFor(m => m.Telefono)
     </div>
     <div>
         <label>Email:</label>
-        @Html.TextBoxFor(m => m.email)
+        @Html.TextBoxFor(m => m.Email)
     </div>
     <button type="submit">Guardar cambios</button>
 }
