@@ -1,0 +1,42 @@
+﻿@model Autoinsurance.Domain.Entities.Customer
+
+@{
+    ViewData["Title"] = "Detalles del Cliente";
+}
+
+<h2>Detalles del Cliente</h2>
+
+<h3>¿Está seguro de que desea eliminar este cliente?</h3>
+
+<div>
+    <h4>Cliente</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <strong>Nombre:</strong>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Nombre
+        </dd>
+
+        <dt class="col-sm-2">
+            <strong>Teléfono:</strong>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Telefono
+        </dd>
+
+        <dt class="col-sm-2">
+            <strong>Email:</strong>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Email
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+    </form>
+</div>
