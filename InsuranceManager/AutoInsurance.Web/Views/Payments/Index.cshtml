@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<Autoinsurance.Domain.Entities.Payment>
 
 <h2>Lista de Pagos</h2>
-<table>
+
+<table class="table">
     <thead>
         <tr>
-            <th>Fecha de Pago</th>
-            <th>Monto</th>
-            <th>Póliza</th>
+            <th>@Html.DisplayNameFor(model => model.PaymentDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Amount)</th>
+            <th>@Html.DisplayNameFor(model => model.PolicyId)</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -14,9 +15,9 @@
         @foreach (var pago in Model)
         {
             <tr>
-                <td>@pago.PaymentDate</td>
-                <td>@pago.Amount</td>
-                <td>@pago.PolicyId</td>
+                <td>@string.Format("{0:dd/MM/yyyy}", pago.PaymentDate)</td>
+                <td>@Html.DisplayFor(modelItem => pago.Amount)</td>
+                <td>@Html.DisplayFor(modelItem => pago.PolicyId)</td>
                 <td>
                     <a href="@Url.Action("Details", "Payments", new { id = pago.Id })">Detalles</a> |
                     <a href="@Url.Action("Edit", "Payments", new { id = pago.Id })">Editar</a> |

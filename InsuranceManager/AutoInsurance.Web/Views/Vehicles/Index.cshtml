@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<Autoinsurance.Domain.Entities.Vehicle>
 
 <h2>Lista de Vehículos</h2>
-<table>
+
+<table class="table">
     <thead>
         <tr>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Placa</th>
+            <th>@Html.DisplayNameFor(model => model.Make)</th>
+            <th>@Html.DisplayNameFor(model => model.Model)</th>
+            <th>@Html.DisplayNameFor(model => model.Year)</th>
+            <th>@Html.DisplayNameFor(model => model.PlateNumber)</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -15,10 +16,10 @@
         @foreach (var vehiculo in Model)
         {
             <tr>
-                <td>@vehiculo.Make</td>
-                <td>@vehiculo.Model</td>
-                <td>@vehiculo.Year</td>
-                <td>@vehiculo.PlateNumber</td>
+                <td>@Html.DisplayFor(modelItem => vehiculo.Make)</td>
+                <td>@Html.DisplayFor(modelItem => vehiculo.Model)</td>
+                <td>@Html.DisplayFor(modelItem => vehiculo.Year)</td>
+                <td>@Html.DisplayFor(modelItem => vehiculo.PlateNumber)</td>
                 <td>
                     <a href="@Url.Action("Details", "Vehicles", new { id = vehiculo.Id })">Detalles</a> |
                     <a href="@Url.Action("Edit", "Vehicles", new { id = vehiculo.Id })">Editar</a> |

@@ -1,33 +1,25 @@
 ﻿@model Autoinsurance.Domain.Entities.Policy
 
-<h2>Registrar Póliza</h2>
+@{
+    ViewData["Title"] = "Edit Policy";
+}
 
-<form asp-action="Create">
+<h2>Edit Policy</h2>
+
+<form asp-action="Edit">
     <div class="form-group">
         <label asp-for="PolicyNumber" class="control-label"></label>
         <input asp-for="PolicyNumber" class="form-control" />
         <span asp-validation-for="PolicyNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="CustomersId" class="control-label"></label>
-        <select asp-for="CustomersId" class="form-control">
-            <option value="">Seleccione un Cliente</option>
-            @foreach (var cliente in ViewBag.Clientes as List<Autoinsurance.Domain.Entities.Customer>)
-            {
-                <option value="@cliente.Id">@cliente.Nombre</option>
-            }
-        </select>
+        <label>Cliente:</label>
+        @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-control" })
         <span asp-validation-for="CustomersId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="VehicleId" class="control-label"></label>
-        <select asp-for="VehicleId" class="form-control">
-            <option value="">Seleccione un Vehículo</option>
-            @foreach (var vehicle in ViewBag.Vehiculos as List<Autoinsurance.Domain.Entities.Vehicle>)
-            {
-                <option value="@vehicle.Id">@vehicle.PlateNumber</option>
-            }
-        </select>
+        <label>Vehículo:</label>
+        @Html.DropDownListFor(m => m.VehicleId, new SelectList(ViewBag.Vehiculos, "Id", "PlateNumber", Model.VehicleId), "--Seleccione un vehículo--", new { @class = "form-control" })
         <span asp-validation-for="VehicleId" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -50,9 +42,8 @@
         <input asp-for="EndDate" class="form-control" type="date" />
         <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
+    <input type="hidden" asp-for="Id" />
     <div class="form-group">
-        <input type="submit" value="Guardar" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
-
-<a href="@Url.Action("Index", "Policies")">Volver a la lista</a>

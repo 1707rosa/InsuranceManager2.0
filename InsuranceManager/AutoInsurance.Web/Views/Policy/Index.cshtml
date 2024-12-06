@@ -1,15 +1,17 @@
 ﻿@model IEnumerable<Autoinsurance.Domain.Entities.Policy>
 
 <h2>Lista de Pólizas</h2>
-<table>
+
+<table class="table">
     <thead>
         <tr>
-            <th>Número de Póliza</th>
-            <th>Cliente</th>
-            <th>Vehículo</th>
-            <th>Monto de Cobertura</th>
-            <th>Prima</th>
-            <th>Fechas</th>
+            <th>@Html.DisplayNameFor(model => model.PolicyNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomersId)</th>
+            <th>@Html.DisplayNameFor(model => model.VehicleId)</th>
+            <th>@Html.DisplayNameFor(model => model.CoverageAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.PremiumAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -17,12 +19,13 @@
         @foreach (var poliza in Model)
         {
             <tr>
-                <td>@poliza.PolicyNumber</td>
-                <td>@poliza.CustomersId</td>
-                <td>@poliza.VehicleId</td>
-                <td>@poliza.CoverageAmount</td>
-                <td>@poliza.PremiumAmount</td>
-                <td>@poliza.StartDate - @poliza.EndDate</td>
+                <td>@Html.DisplayFor(modelItem => poliza.PolicyNumber)</td>
+                <td>@Html.DisplayFor(modelItem => poliza.CustomersId)</td>
+                <td>@Html.DisplayFor(modelItem => poliza.VehicleId)</td>
+                <td>@Html.DisplayFor(modelItem => poliza.CoverageAmount)</td>
+                <td>@Html.DisplayFor(modelItem => poliza.PremiumAmount)</td>
+                <td>@string.Format("{0:dd/MM/yyyy}", poliza.StartDate)</td>
+                <td>@string.Format("{0:dd/MM/yyyy}", poliza.EndDate)</td>
                 <td>
                     <a href="@Url.Action("Details", "Policies", new { id = poliza.Id })">Detalles</a> |
                     <a href="@Url.Action("Edit", "Policies", new { id = poliza.Id })">Editar</a> |

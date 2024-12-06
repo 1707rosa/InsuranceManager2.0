@@ -1,22 +1,20 @@
 ﻿@model Autoinsurance.Domain.Entities.Claim
 
-<h2>Registrar Reclamación</h2>
+@{
+    ViewData["Title"] = "Edit Claim";
+}
 
-<form asp-action="Create">
+<h2>Edit Claim</h2>
+
+<form asp-action="Edit">
     <div class="form-group">
         <label asp-for="ClaimNumber" class="control-label"></label>
         <input asp-for="ClaimNumber" class="form-control" />
         <span asp-validation-for="ClaimNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PolicyId" class="control-label"></label>
-        <select asp-for="PolicyId" class="form-control">
-            <option value="">Seleccione una Póliza</option>
-            @foreach (var policy in ViewBag.Policies as List<Autoinsurance.Domain.Entities.Policy>)
-            {
-                <option value="@policy.Id">@policy.PolicyNumber</option>
-            }
-        </select>
+        <label>Cliente:</label>
+        @Html.DropDownListFor(m => m.PolicyId, new SelectList(ViewBag.Policies, "Id", "PolicyNumber", Model.PolicyId), "--Seleccione una póliza--", new { @class = "form-control" })
         <span asp-validation-for="PolicyId" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -34,10 +32,8 @@
         <input asp-for="Status" class="form-control" />
         <span asp-validation-for="Status" class="text-danger"></span>
     </div>
+    <input type="hidden" asp-for="Id" />
     <div class="form-group">
-        <input type="submit" value="Registrar" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
-
-<a href="@Url.Action("Index", "Claims")">Volver a la lista</a>
-

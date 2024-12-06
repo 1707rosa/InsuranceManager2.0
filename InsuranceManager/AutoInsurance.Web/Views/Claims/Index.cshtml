@@ -1,14 +1,15 @@
-﻿@model IEnumerable< Autoinsurance.Domain.Entities.Claim>
+﻿@model IEnumerable<Autoinsurance.Domain.Entities.Claim>
 
 <h2>Lista de Reclamaciones</h2>
-<table>
+
+<table class="table">
     <thead>
         <tr>
-            <th>Número de Reclamación</th>
-            <th>Póliza</th>
-            <th>Monto</th>
-            <th>Fecha</th>
-            <th>Estado</th>
+            <th>@Html.DisplayNameFor(model => model.ClaimNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.PolicyId)</th>
+            <th>@Html.DisplayNameFor(model => model.ClaimAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.ClaimDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -16,11 +17,11 @@
         @foreach (var reclamo in Model)
         {
             <tr>
-                <td>@reclamo.ClaimNumber</td>
-                <td>@reclamo.PolicyId</td>
-                <td>@reclamo.ClaimAmount</td>
-                <td>@reclamo.ClaimDate</td>
-                <td>@reclamo.Status</td>
+                <td>@Html.DisplayFor(modelItem => reclamo.ClaimNumber)</td>
+                <td>@Html.DisplayFor(modelItem => reclamo.PolicyId)</td>
+                <td>@Html.DisplayFor(modelItem => reclamo.ClaimAmount)</td>
+                <td>@string.Format("{0:dd/MM/yyyy}", reclamo.ClaimDate)</td>
+                <td>@Html.DisplayFor(modelItem => reclamo.Status)</td>
                 <td>
                     <a href="@Url.Action("Details", "Claims", new { id = reclamo.Id })">Detalles</a> |
                     <a href="@Url.Action("Edit", "Claims", new { id = reclamo.Id })">Editar</a> |
@@ -31,3 +32,4 @@
     </tbody>
 </table>
 <a href="@Url.Action("Create", "Claims")">Agregar Reclamación</a>
+
