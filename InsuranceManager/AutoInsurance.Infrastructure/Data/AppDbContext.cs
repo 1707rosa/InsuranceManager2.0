@@ -1,8 +1,5 @@
 ﻿using Autoinsurance.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using System.Security.Claims;
 
 namespace Autoinsurance.Infrastructure.Data
 {
@@ -13,8 +10,17 @@ namespace Autoinsurance.Infrastructure.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Policy> Policies { get; set; }
-        public DbSet<Domain.Entities.Claim> Claims { get; set; }
+        public DbSet<Claim> Claims { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Policy>()
+                .HasOne(p => p.Customer)
+                .WithMany()
+                .HasForeignKey(p => p.CustomersId);
+        }
     }
 }
