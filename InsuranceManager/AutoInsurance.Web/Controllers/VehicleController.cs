@@ -115,9 +115,6 @@ namespace AutoInsurance.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VehicleExists(int id)
-        {
-            return _context.Vehicles.Any(e => e.Id == id);
-        }
+       
     }
 }

@@ -1,32 +1,40 @@
 ﻿@model Autoinsurance.Domain.Entities.Payment
 
-<h2>Registrar Pago</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Registrar Pago</h2>
 
-<form asp-action="Create">
-    <div class="form-group">
-        <label asp-for="PaymentDate" class="control-label"></label>
-        <input asp-for="PaymentDate" class="form-control" type="date" />
-        <span asp-validation-for="PaymentDate" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Amount" class="control-label"></label>
-        <input asp-for="Amount" class="form-control" />
-        <span asp-validation-for="Amount" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PolicyId" class="control-label"></label>
-        <select asp-for="PolicyId" class="form-control">
-            <option value="">Seleccione una Póliza</option>
-            @foreach (var policy in ViewData["Policies"] as List<Autoinsurance.Domain.Entities.Policy>)
-            {
-                <option value="@policy.Id">@policy.PolicyNumber</option>
-            }
-        </select>
-        <span asp-validation-for="PolicyId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Registrar" class="btn btn-primary" />
-    </div>
-</form>
+    <form asp-action="Create" class="card p-5 shadow-lg rounded-3 bg-light">
+        <div class="mb-4">
+            <label asp-for="PaymentDate" class="form-label fs-5 fw-semibold">Fecha de Pago</label>
+            <input asp-for="PaymentDate" class="form-control form-control-lg" type="date" />
+            <span asp-validation-for="PaymentDate" class="text-danger"></span>
+        </div>
 
-<a href="@Url.Action("Index", "Payment")">Volver a la lista</a>
+        <div class="mb-4">
+            <label asp-for="Amount" class="form-label fs-5 fw-semibold">Monto</label>
+            <input asp-for="Amount" class="form-control form-control-lg" placeholder="Ingrese el monto del pago" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PolicyId" class="form-label fs-5 fw-semibold">Póliza</label>
+            <select asp-for="PolicyId" class="form-select form-select-lg">
+                <option value="">Seleccione una Póliza</option>
+                @foreach (var policy in ViewData["Policies"] as List<Autoinsurance.Domain.Entities.Policy>)
+                {
+                    <option value="@policy.Id">@policy.PolicyNumber</option>
+                }
+            </select>
+            <span asp-validation-for="PolicyId" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Registrar Pago</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Payment")" class="btn btn-secondary btn-lg">Volver a la lista</a>
+    </div>
+</div>
+

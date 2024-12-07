@@ -4,52 +4,55 @@
     ViewData["Title"] = "Editar Vehículo";
 }
 
-<h2>Editar Vehículo</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Editar Vehículo</h2>
 
-<form asp-action="Edit" method="post">
-    @Html.HiddenFor(m => m.Id)
+    <form asp-action="Edit" method="post" class="card p-5 shadow-lg rounded-3 bg-light">
+        @Html.HiddenFor(m => m.Id)
 
-    <div class="form-group">
-        <label asp-for="Make" class="control-label"></label>
-        <input asp-for="Make" class="form-control" />
-        <span asp-validation-for="Make" class="text-danger"></span>
+        <div class="mb-4">
+            <label asp-for="Make" class="form-label fs-5 fw-semibold">Marca</label>
+            <input asp-for="Make" class="form-control form-control-lg" placeholder="Ingrese la marca del vehículo" />
+            <span asp-validation-for="Make" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Model" class="form-label fs-5 fw-semibold">Modelo</label>
+            <input asp-for="Model" class="form-control form-control-lg" placeholder="Ingrese el modelo del vehículo" />
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Year" class="form-label fs-5 fw-semibold">Año</label>
+            <input asp-for="Year" class="form-control form-control-lg" placeholder="Ingrese el año del vehículo" />
+            <span asp-validation-for="Year" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PlateNumber" class="form-label fs-5 fw-semibold">Número de Placa</label>
+            <input asp-for="PlateNumber" class="form-control form-control-lg" placeholder="Ingrese el número de placa del vehículo" />
+            <span asp-validation-for="PlateNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fs-5 fw-semibold">Cliente</label>
+            @if (ViewBag.Clientes != null)
+            {
+                @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "Nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-select form-select-lg" })
+            }
+            else
+            {
+                <span class="text-danger">No hay clientes disponibles.</span>
+            }
+            <span asp-validation-for="CustomersId" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Guardar Cambios</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Vehicles")" class="btn btn-secondary btn-lg">Volver a la lista</a>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Model" class="control-label"></label>
-        <input asp-for="Model" class="form-control" />
-        <span asp-validation-for="Model" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Year" class="control-label"></label>
-        <input asp-for="Year" class="form-control" />
-        <span asp-validation-for="Year" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PlateNumber" class="control-label"></label>
-        <input asp-for="PlateNumber" class="form-control" />
-        <span asp-validation-for="PlateNumber" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label>Cliente:</label>
-        @if (ViewBag.Clientes != null)
-        {
-            @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "Nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-control" })
-        }
-        else
-        {
-            <span class="text-danger">No hay clientes disponibles.</span>
-        }
-        <span asp-validation-for="CustomersId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-    </div>
-</form>
-
-<a href="@Url.Action("Index", "Vehicles")" class="btn btn-secondary">Volver a la lista</a>
-
+</div>

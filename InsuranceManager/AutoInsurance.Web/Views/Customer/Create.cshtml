@@ -1,33 +1,33 @@
 ﻿@model Autoinsurance.Domain.Entities.Customer
 
-@{
-    ViewData["Title"] = "Crear Cliente";
-}
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Registrar Nuevo Cliente</h2>
 
-<h2>Crear Cliente</h2>
+    <form asp-action="Create" class="card p-5 shadow-lg rounded-3 bg-light">
+        <div class="mb-4">
+            <label asp-for="Nombre" class="form-label fs-5 fw-semibold">Nombre</label>
+            <input asp-for="Nombre" class="form-control form-control-lg" placeholder="Ingrese el nombre del cliente" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Nombre" class="control-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
+        <div class="mb-4">
+            <label asp-for="Telefono" class="form-label fs-5 fw-semibold">Teléfono</label>
+            <input asp-for="Telefono" class="form-control form-control-lg" placeholder="Ingrese el teléfono del cliente" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Email" class="form-label fs-5 fw-semibold">Correo Electrónico</label>
+            <input asp-for="Email" class="form-control form-control-lg" placeholder="Ingrese el correo electrónico del cliente" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Registrar Cliente</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Customer")" class="btn btn-secondary btn-lg">Volver a la lista</a>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Telefono" class="control-label"></label>
-        <input asp-for="Telefono" class="form-control" />
-        <span asp-validation-for="Telefono" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Guardar" class="btn btn-primary" />
-    </div>
-</form>
-
-<a href="@Url.Action("Index", "Customers")" class="btn btn-secondary">Volver a la lista</a>
+</div>

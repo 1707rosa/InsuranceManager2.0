@@ -4,44 +4,54 @@
     ViewData["Title"] = "Editar Reclamación";
 }
 
-<h2>Editar Reclamación</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Editar Reclamación</h2>
 
-<form asp-action="Edit" method="post">
-    @Html.HiddenFor(m => m.Id)
+    <form asp-action="Edit" method="post" class="card p-5 shadow-lg rounded-3 bg-light">
+        @Html.HiddenFor(m => m.Id)
 
-    <div class="form-group">
-        <label asp-for="ClaimNumber" class="control-label"></label>
-        <input asp-for="ClaimNumber" class="form-control" />
-        <span asp-validation-for="ClaimNumber" class="text-danger"></span>
+        <div class="mb-4">
+            <label asp-for="ClaimNumber" class="form-label fs-5 fw-semibold">Número de Reclamación</label>
+            <input asp-for="ClaimNumber" class="form-control form-control-lg" />
+            <span asp-validation-for="ClaimNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PolicyId" class="form-label fs-5 fw-semibold">Póliza</label>
+            <select asp-for="PolicyId" class="form-select form-select-lg">
+                <option value="">Seleccione una Póliza</option>
+                @foreach (var policy in ViewData["Policies"] as List<Autoinsurance.Domain.Entities.Policy>)
+                {
+                    <option value="@policy.Id">@policy.PolicyNumber</option>
+                }
+            </select>
+            <span asp-validation-for="PolicyId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ClaimAmount" class="form-label fs-5 fw-semibold">Monto de Reclamación</label>
+            <input asp-for="ClaimAmount" class="form-control form-control-lg" />
+            <span asp-validation-for="ClaimAmount" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ClaimDate" class="form-label fs-5 fw-semibold">Fecha de Reclamación</label>
+            <input asp-for="ClaimDate" class="form-control form-control-lg" type="date" />
+            <span asp-validation-for="ClaimDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Status" class="form-label fs-5 fw-semibold">Estado de Reclamación</label>
+            <input asp-for="Status" class="form-control form-control-lg" />
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Guardar cambios</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Claim")" class="btn btn-secondary btn-lg">Volver a la lista</a>
     </div>
-
-    <div class="form-group">
-        <label>Policy:</label>
-        @Html.DropDownListFor(m => m.PolicyId, new SelectList(ViewBag.Policies, "Id", "PolicyNumber", Model.PolicyId), "--Seleccione una política--", new { @class = "form-control" })
-        <span asp-validation-for="PolicyId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ClaimAmount" class="control-label"></label>
-        <input asp-for="ClaimAmount" class="form-control" />
-        <span asp-validation-for="ClaimAmount" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ClaimDate" class="control-label"></label>
-        <input asp-for="ClaimDate" class="form-control" type="date" />
-        <span asp-validation-for="ClaimDate" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Status" class="control-label"></label>
-        <input asp-for="Status" class="form-control" />
-        <span asp-validation-for="Status" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-    </div>
-</form>
-
-<a href="@Url.Action("Index", "Claim")" class="btn btn-secondary">Volver a la lista</a>
+</div>

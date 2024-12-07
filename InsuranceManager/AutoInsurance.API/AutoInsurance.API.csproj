@@ -19,9 +19,4 @@
 	  <ProjectReference Include="..\AutoInsurance.Infrastructure\AutoInsurance.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Responses\" />
-    <Folder Include="Requests\" />
-  </ItemGroup>
-
 </Project>

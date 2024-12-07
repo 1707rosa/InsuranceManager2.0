@@ -4,71 +4,75 @@
     ViewData["Title"] = "Editar Póliza";
 }
 
-<h2>Editar Póliza</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Editar Póliza</h2>
 
-<form asp-action="Edit" method="post">
-    @Html.HiddenFor(m => m.Id)
+    <form asp-action="Edit" method="post" class="card p-5 shadow-lg rounded-3 bg-light">
+        @Html.HiddenFor(m => m.Id)
 
-    <div class="form-group">
-        <label asp-for="PolicyNumber" class="control-label"></label>
-        <input asp-for="PolicyNumber" class="form-control" />
-        <span asp-validation-for="PolicyNumber" class="text-danger"></span>
+        <div class="mb-4">
+            <label asp-for="PolicyNumber" class="form-label fs-5 fw-semibold">Número de Póliza</label>
+            <input asp-for="PolicyNumber" class="form-control form-control-lg" />
+            <span asp-validation-for="PolicyNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fs-5 fw-semibold">Cliente</label>
+            @if (ViewBag.Clientes != null)
+            {
+                @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "Nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-select form-select-lg" })
+            }
+            else
+            {
+                <span class="text-danger">No hay clientes disponibles.</span>
+            }
+            <span asp-validation-for="CustomersId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fs-5 fw-semibold">Vehículo</label>
+            @if (ViewBag.Vehiculos != null)
+            {
+                @Html.DropDownListFor(m => m.VehicleId, new SelectList(ViewBag.Vehiculos, "Id", "PlateNumber", Model.VehicleId), "--Seleccione un vehículo--", new { @class = "form-select form-select-lg" })
+            }
+            else
+            {
+                <span class="text-danger">No hay vehículos disponibles.</span>
+            }
+            <span asp-validation-for="VehicleId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="CoverageAmount" class="form-label fs-5 fw-semibold">Monto de Cobertura</label>
+            <input asp-for="CoverageAmount" class="form-control form-control-lg" />
+            <span asp-validation-for="CoverageAmount" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PremiumAmount" class="form-label fs-5 fw-semibold">Monto de Prima</label>
+            <input asp-for="PremiumAmount" class="form-control form-control-lg" />
+            <span asp-validation-for="PremiumAmount" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="StartDate" class="form-label fs-5 fw-semibold">Fecha de Inicio</label>
+            <input asp-for="StartDate" class="form-control form-control-lg" type="date" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="EndDate" class="form-label fs-5 fw-semibold">Fecha de Fin</label>
+            <input asp-for="EndDate" class="form-control form-control-lg" type="date" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Guardar cambios</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Policies")" class="btn btn-secondary btn-lg">Volver a la lista</a>
     </div>
-
-    <div class="form-group">
-        <label>Cliente:</label>
-        @if (ViewBag.Clientes != null)
-        {
-            @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "Nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-control" })
-        }
-        else
-        {
-            <span class="text-danger">No hay clientes disponibles.</span>
-        }
-        <span asp-validation-for="CustomersId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label>Vehículo:</label>
-        @if (ViewBag.Vehiculos != null)
-        {
-            @Html.DropDownListFor(m => m.VehicleId, new SelectList(ViewBag.Vehiculos, "Id", "PlateNumber", Model.VehicleId), "--Seleccione un vehículo--", new { @class = "form-control" })
-        }
-        else
-        {
-            <span class="text-danger">No hay vehículos disponibles.</span>
-        }
-        <span asp-validation-for="VehicleId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="CoverageAmount" class="control-label"></label>
-        <input asp-for="CoverageAmount" class="form-control" />
-        <span asp-validation-for="CoverageAmount" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PremiumAmount" class="control-label"></label>
-        <input asp-for="PremiumAmount" class="form-control" />
-        <span asp-validation-for="PremiumAmount" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="StartDate" class="control-label"></label>
-        <input asp-for="StartDate" class="form-control" type="date" />
-        <span asp-validation-for="StartDate" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="EndDate" class="control-label"></label>
-        <input asp-for="EndDate" class="form-control" type="date" />
-        <span asp-validation-for="EndDate" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-    </div>
-</form>
-
-<a href="@Url.Action("Index", "Policies")" class="btn btn-secondary">Volver a la lista</a>
+</div>
 
