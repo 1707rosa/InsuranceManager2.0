@@ -1,0 +1,59 @@
+﻿@model Autoinsurance.Domain.Entities.Claim
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Registrar Nueva Reclamación</h2>
+
+    <form asp-action="Create" class="card p-5 shadow-lg rounded-3 bg-light">
+
+        
+        <div class="mb-4">
+            <label asp-for="ClaimNumber" class="form-label fs-5 fw-semibold">Número de Reclamación</label>
+            <input asp-for="ClaimNumber" class="form-control form-control-lg" placeholder="Ingrese el número de la reclamación" />
+            <span asp-validation-for="ClaimNumber" class="text-danger"></span>
+        </div>
+
+    
+        <div class="mb-4">
+            <label asp-for="PolicyId" class="form-label fs-5 fw-semibold">Póliza</label>
+            <select asp-for="PolicyId" class="form-select form-select-lg">
+                <option value="">Seleccione una Póliza</option>
+                @foreach (var policy in ViewData["Policies"] as List<Autoinsurance.Domain.Entities.Policy>)
+                {
+                    <option value="@policy.Id">@policy.PolicyNumber</option>
+                }
+            </select>
+            <span asp-validation-for="PolicyId" class="text-danger"></span>
+        </div>
+
+       
+        <div class="mb-4">
+            <label asp-for="ClaimAmount" class="form-label fs-5 fw-semibold">Monto de Reclamación</label>
+            <input asp-for="ClaimAmount" class="form-control form-control-lg" placeholder="Ingrese el monto de la reclamación" />
+            <span asp-validation-for="ClaimAmount" class="text-danger"></span>
+        </div>
+
+        
+        <div class="mb-4">
+            <label asp-for="ClaimDate" class="form-label fs-5 fw-semibold">Fecha de Reclamación</label>
+            <input asp-for="ClaimDate" class="form-control form-control-lg" type="date" />
+            <span asp-validation-for="ClaimDate" class="text-danger"></span>
+        </div>
+
+      
+        <div class="mb-4">
+            <label asp-for="Status" class="form-label fs-5 fw-semibold">Estado de Reclamación</label>
+            <input asp-for="Status" class="form-control form-control-lg" placeholder="Ingrese el estado de la reclamación" />
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Registrar Reclamación</button>
+        </div>
+    </form>
+
+    
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Claim")" class="btn btn-secondary btn-lg">Volver a la lista</a>
+    </div>
+</div>

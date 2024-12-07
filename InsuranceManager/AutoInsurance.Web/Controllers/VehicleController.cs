@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autoinsurance.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Autoinsurance.Domain.Entities;
 using Autoinsurance.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoInsurance.Controllers
 {
@@ -22,7 +22,7 @@ namespace AutoInsurance.Controllers
 
         public IActionResult Create()
         {
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre");
+           ViewBag.Clientes = _context.Customers.ToList();
             return View();
         }
 
@@ -36,58 +36,57 @@ namespace AutoInsurance.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", vehicle.CustomersId);
+            ViewBag.Clientes = _context.Customers.ToList();
             return View(vehicle);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var vehicle = _context.Vehicles
+                .Include(v => v.Customer)  
+                .FirstOrDefault(v => v.Id == id);
 
-            var vehicle = _context.Vehicles.Find(id);
             if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", vehicle.CustomersId);
+
+            ViewBag.Clientes = _context.Customers.ToList();  
+
             return View(vehicle);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Make,Model,Year,PlateNumber,CustomersId")] Vehicle vehicle)
+        public IActionResult Edit(Vehicle vehicle)
         {
-            if (id != vehicle.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var customer = _context.Customers.FirstOrDefault(c => c.Id == vehicle.CustomersId);
+                if (customer == null)
                 {
-                    _context.Update(vehicle);
-                    _context.SaveChanges();
+                    ModelState.AddModelError("", "Cliente no válido.");
+                    ViewBag.Clientes = _context.Customers.ToList();
+                    return View(vehicle);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VehicleExists(vehicle.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                _context.Update(vehicle);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", vehicle.CustomersId);
+
+            ViewBag.Clientes = _context.Customers.ToList();
             return View(vehicle);
         }
+
+
+
+        private bool VehicleExists(int id)
+        {
+            return _context.Vehicles.Any(e => e.Id == id);
+        }
+
 
         public IActionResult Delete(int? id)
         {

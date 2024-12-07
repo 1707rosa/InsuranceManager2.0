@@ -1,8 +1,44 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid py-5 text-center bg-light">
+    <h1 class="display-3 fw-bold">Welcome to <span class="text-primary">AutoInsurance</span></h1>
+    <p class="lead text-muted mt-3">Your one-stop solution for managing vehicle insurance policies, claims, and more.</p>
+    <a href="/Vehicle" class="btn btn-primary btn-lg shadow-sm mt-4 px-5">Get Started</a>
+</div>
+
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-car-front text-primary fs-1 mb-3"></i>
+                    <h5 class="card-title">Manage Vehicles</h5>
+                    <p class="card-text text-muted">Add, edit, and view all registered vehicles with ease.</p>
+                    <a href="/Vehicle" class="btn btn-outline-primary">Go to Vehicles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-file-earmark-text text-success fs-1 mb-3"></i>
+                    <h5 class="card-title">Policies</h5>
+                    <p class="card-text text-muted">Track and manage all active insurance policies.</p>
+                    <a href="/Policy" class="btn btn-outline-success">View Policies</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-clipboard2-check text-danger fs-1 mb-3"></i>
+                    <h5 class="card-title">Claims</h5>
+                    <p class="card-text text-muted">Submit, review, and process insurance claims efficiently.</p>
+                    <a href="/Claim" class="btn btn-outline-danger">Manage Claims</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

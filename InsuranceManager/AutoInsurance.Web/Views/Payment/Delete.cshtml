@@ -1,0 +1,30 @@
+﻿@model Autoinsurance.Domain.Entities.Payment
+
+<h2>Eliminar Pago</h2>
+<p>¿Estás seguro de que deseas eliminar el pago con fecha @Model.PaymentDate y monto @Model.Amount?</p>
+
+<div>
+    <h4>Pago</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @string.Format("{0:dd/MM/yyyy}", Model.PaymentDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class="col-sm-10">
+            @string.Format("{0:C}", Model.Amount)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.Id)
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+    }
+    <a href="@Url.Action("Index", "Payment")" class="btn btn-secondary">Cancelar</a>
+</div>

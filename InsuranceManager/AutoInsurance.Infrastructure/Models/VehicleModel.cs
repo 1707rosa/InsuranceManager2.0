@@ -6,6 +6,6 @@
         public string Model { get; set; } = string.Empty;
         public int Year { get; set; }
         public string PlateNumber { get; set; } = string.Empty;
-        public int CustomersId { get; set; }
+        public int? CustomersId { get; set; }
     }
 }

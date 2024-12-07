@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Autoinsurance.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Autoinsurance.Domain.Entities;
 using Autoinsurance.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoInsurance.Web.Controllers
 {
@@ -21,14 +21,13 @@ namespace AutoInsurance.Web.Controllers
             return View(_context.Payments.Include(p => p.Policy).ToList());
         }
 
-        // GET: Payments/Create
+     
         public IActionResult Create()
         {
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber");
+            ViewData["Policies"] = _context.Policies.ToList();
             return View();
         }
 
-        // POST: Payments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,PaymentNumber,PolicyId,Amount,PaymentDate")] Payment payment)
@@ -43,56 +42,47 @@ namespace AutoInsurance.Web.Controllers
             return View(payment);
         }
 
-        // GET: Payments/Edit/5
         public IActionResult Edit(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return NotFound();
             }
 
-            var payment = _context.Payments.Find(id);
+            var payment = _context.Payments
+                                  .FirstOrDefault(p => p.Id == id.Value);
+
             if (payment == null)
             {
                 return NotFound();
             }
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", payment.PolicyId);
+
+            
+            ViewBag.Policies = _context.Policies.ToList();
+
+           
             return View(payment);
         }
 
-        // POST: Payments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,PaymentNumber,PolicyId,Amount,PaymentDate")] Payment payment)
+        public IActionResult Edit(Payment payment)
         {
-            if (id != payment.Id)
+            
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                
+                ViewBag.Policies = _context.Policies.ToList();
+                return View(payment);
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(payment);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PaymentExists(payment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", payment.PolicyId);
-            return View(payment);
+           
+            _context.Update(payment);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
+
+
 
         // GET: Payments/Delete/5
         public IActionResult Delete(int? id)

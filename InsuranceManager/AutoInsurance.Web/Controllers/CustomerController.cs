@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Autoinsurance.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Autoinsurance.Domain;
+﻿using Autoinsurance.Domain.Entities;
 using Autoinsurance.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoInsurance.Controllers
 {

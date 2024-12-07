@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autoinsurance.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Autoinsurance.Domain.Entities;
 using Autoinsurance.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoInsurance.Web.Controllers
 {
@@ -15,20 +15,20 @@ namespace AutoInsurance.Web.Controllers
             _context = context;
         }
 
-        
+
         public IActionResult Index()
         {
             return View(_context.Claims.Include(c => c.Policy).ToList());
         }
 
-    
+
         public IActionResult Create()
         {
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber");
+            ViewData["Policies"] = _context.Policies.ToList();
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Claim claim)
@@ -39,62 +39,46 @@ namespace AutoInsurance.Web.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", claim.PolicyId);
+            ViewData["Policies"] = _context.Policies.ToList();
             return View(claim);
         }
 
-        
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var claim = _context.Claims.Find(id);
+        public IActionResult Edit(int id)
+        {
+            var claim = _context.Claims
+                                .Include(c => c.Policy)  
+                                .FirstOrDefault(c => c.Id == id);
+
             if (claim == null)
             {
                 return NotFound();
             }
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", claim.PolicyId);
+
+            ViewBag.Policies = _context.Policies.ToList();  
             return View(claim);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,ClaimNumber,PolicyId,ClaimAmount,ClaimDate,Status")] Claim claim)
+        public IActionResult Edit(Claim claim)
         {
-            if (id != claim.Id)
+            if (_context.Policies.Any(p => p.Id == claim.PolicyId))
             {
-                return NotFound();
+                _context.Update(claim);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-
-            if (ModelState.IsValid)
+            else
             {
-                try
-                {
-                    _context.Update(claim);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClaimExists(claim.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "Póliza no válida.");
+                ViewBag.Policies = _context.Policies.ToList();  
+                return View(claim);
             }
-            ViewData["PolicyId"] = new SelectList(_context.Policies, "Id", "PolicyNumber", claim.PolicyId);
-            return View(claim);
         }
 
-       
+
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -113,7 +97,7 @@ namespace AutoInsurance.Web.Controllers
             return View(claim);
         }
 
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)

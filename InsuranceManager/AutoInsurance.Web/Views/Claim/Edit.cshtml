@@ -1,0 +1,47 @@
+﻿@model Autoinsurance.Domain.Entities.Claim
+
+@{
+    ViewData["Title"] = "Editar Reclamación";
+}
+
+<h2>Editar Reclamación</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        <label asp-for="ClaimNumber" class="control-label"></label>
+        <input asp-for="ClaimNumber" class="form-control" />
+        <span asp-validation-for="ClaimNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Policy:</label>
+        @Html.DropDownListFor(m => m.PolicyId, new SelectList(ViewBag.Policies, "Id", "PolicyNumber", Model.PolicyId), "--Seleccione una política--", new { @class = "form-control" })
+        <span asp-validation-for="PolicyId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClaimAmount" class="control-label"></label>
+        <input asp-for="ClaimAmount" class="form-control" />
+        <span asp-validation-for="ClaimAmount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClaimDate" class="control-label"></label>
+        <input asp-for="ClaimDate" class="form-control" type="date" />
+        <span asp-validation-for="ClaimDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status" class="control-label"></label>
+        <input asp-for="Status" class="form-control" />
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+    </div>
+</form>
+
+<a href="@Url.Action("Index", "Claim")" class="btn btn-secondary">Volver a la lista</a>

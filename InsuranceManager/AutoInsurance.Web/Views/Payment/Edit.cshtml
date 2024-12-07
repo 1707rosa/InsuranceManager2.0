@@ -1,0 +1,43 @@
+﻿@model Autoinsurance.Domain.Entities.Payment
+
+@{
+    ViewData["Title"] = "Editar Pago";
+}
+
+<h2>Editar Pago</h2>
+
+<form asp-action="Edit">
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        <label asp-for="PaymentDate" class="control-label"></label>
+        <input asp-for="PaymentDate" class="form-control" type="date" />
+        <span asp-validation-for="PaymentDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Policy:</label>
+        @if (ViewBag.Policies != null)
+        {
+            @Html.DropDownListFor(m => m.PolicyId, new SelectList(ViewBag.Policies, "Id", "PolicyNumber", Model.PolicyId), "--Seleccione una póliza--", new { @class = "form-control" })
+        }
+        else
+        {
+            <span class="text-danger">No hay pólizas disponibles.</span>
+        }
+        <span asp-validation-for="PolicyId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+    </div>
+</form>
+
+<a href="@Url.Action("Index", "Payments")" class="btn btn-secondary">Volver a la lista</a>
+

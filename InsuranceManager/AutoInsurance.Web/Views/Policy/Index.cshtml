@@ -1,38 +1,91 @@
 ﻿@model IEnumerable<Autoinsurance.Domain.Entities.Policy>
 
-<h2>Lista de Pólizas</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Pólizas</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.PolicyNumber)</th>
-            <th>@Html.DisplayNameFor(model => model.CustomersId)</th>
-            <th>@Html.DisplayNameFor(model => model.VehicleId)</th>
-            <th>@Html.DisplayNameFor(model => model.CoverageAmount)</th>
-            <th>@Html.DisplayNameFor(model => model.PremiumAmount)</th>
-            <th>@Html.DisplayNameFor(model => model.StartDate)</th>
-            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var poliza in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => poliza.PolicyNumber)</td>
-                <td>@Html.DisplayFor(modelItem => poliza.CustomersId)</td>
-                <td>@Html.DisplayFor(modelItem => poliza.VehicleId)</td>
-                <td>@Html.DisplayFor(modelItem => poliza.CoverageAmount)</td>
-                <td>@Html.DisplayFor(modelItem => poliza.PremiumAmount)</td>
-                <td>@string.Format("{0:dd/MM/yyyy}", poliza.StartDate)</td>
-                <td>@string.Format("{0:dd/MM/yyyy}", poliza.EndDate)</td>
-                <td>
-                    <a href="@Url.Action("Details", "Policies", new { id = poliza.Id })">Detalles</a> |
-                    <a href="@Url.Action("Edit", "Policies", new { id = poliza.Id })">Editar</a> |
-                    <a href="@Url.Action("Delete", "Policies", new { id = poliza.Id })">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a href="@Url.Action("Create", "Policies")">Agregar Póliza</a>
+    <div class="d-flex justify-content-between mb-4 flex-wrap">
+        <div class="d-flex">
+            <a href="@Url.Action("Create", "Policy")" class="btn btn-success btn-lg me-3">
+                <i class="fas fa-plus-circle"></i> Agregar Póliza
+            </a>
+        </div>
+        <div class="d-flex">
+            <input type="text" class="form-control w-100 w-md-25" placeholder="Buscar..." id="searchPolicy" />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle shadow-lg rounded">
+            <thead class="thead-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.PolicyNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.CustomersId)</th>
+                    <th>@Html.DisplayNameFor(model => model.VehicleId)</th>
+                    <th>@Html.DisplayNameFor(model => model.CoverageAmount)</th>
+                    <th>@Html.DisplayNameFor(model => model.PremiumAmount)</th>
+                    <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var poliza in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => poliza.PolicyNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => poliza.CustomersId)</td>
+                        <td>@Html.DisplayFor(modelItem => poliza.VehicleId)</td>
+                        <td>@Html.DisplayFor(modelItem => poliza.CoverageAmount)</td>
+                        <td>@Html.DisplayFor(modelItem => poliza.PremiumAmount)</td>
+                        <td>@string.Format("{0:dd/MM/yyyy}", poliza.StartDate)</td>
+                        <td>@string.Format("{0:dd/MM/yyyy}", poliza.EndDate)</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Details", "Policy", new { id = poliza.Id })" class="btn btn-info btn-sm"><i class="fas fa-info-circle"></i> Detalles</a>
+                            <a href="@Url.Action("Edit", "Policy", new { id = poliza.Id })" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
+                            <a href="@Url.Action("Delete", "Policy", new { id = poliza.Id })" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta póliza?');"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-light th {
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table {
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+    }
+
+    .btn-lg {
+        font-size: 1.1rem;
+    }
+
+    .btn i {
+        margin-right: 8px;
+    }
+
+    #searchPolicy {
+        max-width: 250px;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

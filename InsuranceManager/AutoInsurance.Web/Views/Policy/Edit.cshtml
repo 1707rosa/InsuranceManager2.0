@@ -1,49 +1,74 @@
 ﻿@model Autoinsurance.Domain.Entities.Policy
 
 @{
-    ViewData["Title"] = "Edit Policy";
+    ViewData["Title"] = "Editar Póliza";
 }
 
-<h2>Edit Policy</h2>
+<h2>Editar Póliza</h2>
 
-<form asp-action="Edit">
+<form asp-action="Edit" method="post">
+    @Html.HiddenFor(m => m.Id)
+
     <div class="form-group">
         <label asp-for="PolicyNumber" class="control-label"></label>
         <input asp-for="PolicyNumber" class="form-control" />
         <span asp-validation-for="PolicyNumber" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label>Cliente:</label>
-        @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-control" })
+        @if (ViewBag.Clientes != null)
+        {
+            @Html.DropDownListFor(m => m.CustomersId, new SelectList(ViewBag.Clientes, "Id", "Nombre", Model.CustomersId), "--Seleccione un cliente--", new { @class = "form-control" })
+        }
+        else
+        {
+            <span class="text-danger">No hay clientes disponibles.</span>
+        }
         <span asp-validation-for="CustomersId" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label>Vehículo:</label>
-        @Html.DropDownListFor(m => m.VehicleId, new SelectList(ViewBag.Vehiculos, "Id", "PlateNumber", Model.VehicleId), "--Seleccione un vehículo--", new { @class = "form-control" })
+        @if (ViewBag.Vehiculos != null)
+        {
+            @Html.DropDownListFor(m => m.VehicleId, new SelectList(ViewBag.Vehiculos, "Id", "PlateNumber", Model.VehicleId), "--Seleccione un vehículo--", new { @class = "form-control" })
+        }
+        else
+        {
+            <span class="text-danger">No hay vehículos disponibles.</span>
+        }
         <span asp-validation-for="VehicleId" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="CoverageAmount" class="control-label"></label>
         <input asp-for="CoverageAmount" class="form-control" />
         <span asp-validation-for="CoverageAmount" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="PremiumAmount" class="control-label"></label>
         <input asp-for="PremiumAmount" class="form-control" />
         <span asp-validation-for="PremiumAmount" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="StartDate" class="control-label"></label>
         <input asp-for="StartDate" class="form-control" type="date" />
         <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="EndDate" class="control-label"></label>
         <input asp-for="EndDate" class="form-control" type="date" />
         <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
-    <input type="hidden" asp-for="Id" />
+
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
     </div>
 </form>
+
+<a href="@Url.Action("Index", "Policies")" class="btn btn-secondary">Volver a la lista</a>
+

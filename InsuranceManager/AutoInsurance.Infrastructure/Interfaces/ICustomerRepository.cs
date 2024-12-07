@@ -1,6 +1,4 @@
 ﻿using Autoinsurance.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Autoinsurance.Infrastructure.Interfaces
 {

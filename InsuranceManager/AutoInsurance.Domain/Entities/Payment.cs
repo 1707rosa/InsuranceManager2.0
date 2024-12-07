@@ -7,8 +7,8 @@
         public decimal Amount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        
+
         public int PolicyId { get; set; }
-        public Policy Policy { get; set; }
+        public Policy? Policy { get; set; }
     }
 }

@@ -11,9 +11,9 @@ namespace Autoinsurance.Domain.Entities
         public string PlateNumber { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        
+
         public int CustomersId { get; set; }
-        public Customer Customer { get; set; }
+        public Customer?  Customer { get; set; }
         public ICollection<Policy> Policies { get; set; } = new List<Policy>();
     }
 }

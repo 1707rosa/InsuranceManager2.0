@@ -1,11 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using Autoinsurance.Domain;
 using Autoinsurance.Domain.Entities;
-using Autoinsurance.Infrastructure.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Autoinsurance.Infrastructure.Data;
-
+using Microsoft.EntityFrameworkCore;
+using Autoinsurance.Infrastructure.Interfaces;
 namespace Autoinsurance.Infrastructure.Repositories
 {
     public class VehicleRepository : IVehicleRepository

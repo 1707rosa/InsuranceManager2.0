@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autoinsurance.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Autoinsurance.Domain.Entities;
 using Autoinsurance.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoInsurance.Web.Controllers
 {
@@ -40,60 +40,48 @@ namespace AutoInsurance.Web.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", policy.CustomersId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "PlateNumber", policy.VehicleId);
+            ViewBag.Customers = _context.Customers.Select(c => new { c.Id, c.Nombre }).ToList();
+            ViewBag.Vehicles = _context.Vehicles.Select(v => new { v.Id, v.PlateNumber }).ToList();
             return View(policy);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var policy = _context.Policies
+                                 .Include(p => p.Customer)  
+                                 .Include(p => p.Vehicle)   
+                                 .FirstOrDefault(p => p.Id == id);
 
-            var policy = _context.Policies.Find(id);
             if (policy == null)
             {
                 return NotFound();
             }
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", policy.CustomersId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "PlateNumber", policy.VehicleId);
+
+          
+            ViewBag.Clientes = _context.Customers.ToList();
+            ViewBag.Vehiculos = _context.Vehicles.ToList();
+
             return View(policy);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,PolicyNumber,CustomersId,VehicleId,CoverageAmount,PremiumAmount,StartDate,EndDate")] Policy policy)
+        public IActionResult Edit(Policy policy)
         {
-            if (id != policy.Id)
+            if (_context.Customers.Any(c => c.Id == policy.CustomersId) && _context.Vehicles.Any(v => v.Id == policy.VehicleId))
             {
-                return NotFound();
+                _context.Update(policy);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-
-            if (ModelState.IsValid)
+            else
             {
-                try
-                {
-                    _context.Update(policy);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PolicyExists(policy.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+               
+                ModelState.AddModelError("", "Cliente o Vehículo no válidos.");
+                ViewBag.Clientes = _context.Customers.ToList();
+                ViewBag.Vehiculos = _context.Vehicles.ToList();
+                return View(policy);
             }
-            ViewData["CustomersId"] = new SelectList(_context.Customers, "Id", "Nombre", policy.CustomersId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "PlateNumber", policy.VehicleId);
-            return View(policy);
         }
 
         public IActionResult Delete(int? id)
